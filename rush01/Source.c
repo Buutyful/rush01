@@ -50,15 +50,14 @@ int** CreateBoard(int size)
 		i++;
 	}
 	i = 0;
-	int j = 0;
 	while (i < size)
 	{
+		int j = 0;
 		while (j < size)
 		{
 			board[i][j] = 0;
 			j++;
-		}
-		j = 0;
+		}		
 		i++;
 	}
 	return board;
@@ -73,9 +72,13 @@ void FreeBoard(int** board, int size)
 	}
 	free(board);
 }
-int IsEmpty(int** board, int row, int col)
+int IsInside(int size, int row, int col)
 {
-	return board[row][col] == 0;
+	return row >= 0 && row < size && col >= 0 && col < size;
+}
+int IsEmpty(int** board, int row, int col, int size)
+{
+	return IsInside(size, row, col) && board[row][col] == 0;
 }
 int SetUpInitialBoardState(int** board, int size, Hints* hints)
 {
@@ -90,7 +93,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 			int num = 1;
 			while (row < size)
 			{
-				if (IsEmpty(board, row, i) || board[row][i] == num)
+				if (IsEmpty(board, row, i, size) || board[row][i] == num)
 				{
 					board[row][i] = num;
 					num++;
@@ -105,7 +108,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 		}
 		else if (hints->ColUp[i] == 1)
 		{
-			if (IsEmpty(board, 0, i) || board[0][i] == max)
+			if (IsEmpty(board, 0, i, size) || board[0][i] == max)
 			{
 				board[0][i] = max;
 			}
@@ -123,7 +126,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 			int num = 1;
 			while (row >= 0)
 			{
-				if (IsEmpty(board, row, i) || board[row][i] == num)
+				if (IsEmpty(board, row, i, size) || board[row][i] == num)
 				{
 					board[row][i] = num;
 					num++;
@@ -138,9 +141,9 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 		}
 		else if (hints->ColDown[i] == 1)
 		{
-			if (IsEmpty(board, size - 1, i) || board[size - 1][i] == max)
+			if (IsEmpty(board, size - 1, i, size) || board[size - 1][i] == max)
 			{
-				board[size - 1] = max;
+				board[size - 1][i] = max;
 			}
 			else
 			{
@@ -157,7 +160,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 			int num = 1;
 			while (col < size)
 			{
-				if (IsEmpty(board, i, col) || board[i][col] == num)
+				if (IsEmpty(board, i, col, size) || board[i][col] == num)
 				{
 					board[i][col] = num;
 					num++;
@@ -172,7 +175,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 		}
 		else if (hints->RowLeft[i] == 1)
 		{
-			if (IsEmpty(board, i, 0) || board[i][0] == max) 
+			if (IsEmpty(board, i, 0, size) || board[i][0] == max) 
 			{
 				board[i][0] = max;
 			}
@@ -190,7 +193,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 			int num = 1;
 			while (col >= 0) 
 			{
-				if (IsEmpty(board, i, col) || board[i][col] == num) 
+				if (IsEmpty(board, i, col, size) || board[i][col] == num) 
 				{
 					board[i][col] = num;
 					num++;
@@ -205,7 +208,7 @@ int SetUpInitialBoardState(int** board, int size, Hints* hints)
 		}
 		else if (hints->RowRight[i] == 1) 
 		{
-			if (IsEmpty(board, i, size - 1) || board[i][size - 1] == max) 
+			if (IsEmpty(board, i, size - 1, size) || board[i][size - 1] == max) 
 			{
 				board[i][size - 1] = max;
 			}
