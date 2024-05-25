@@ -27,9 +27,12 @@ int* SplitInput(char* args, int* argc)
 	int j = 0;
 	while (args[i])
 	{
-		if (args[i] != ' ')
+		while (args[i] == ' ') i++;
+
+		if (args[i] >= '0' && args[i] <= '9' && j < params)
 		{
-			arr[j] = args[i] - 48;
+			char c = args[i];
+			arr[j] = c - '0';
 			j++;
 		}
 		i++;
@@ -351,6 +354,7 @@ int main(int count, char** args)
 {
 	int params = 0;
 	int* hints = SplitInput(args[1], &params);
+	for (int i = 0; i < params; i++) printf("%d\n", hints[i]);
 	int size = params / 4;	
 	int** board = CreateBoard(size);
 	int* colUp = malloc(size * sizeof(int));
