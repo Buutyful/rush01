@@ -58,6 +58,7 @@ int** CreateBoard(int size)
 			board[i][j] = 0;
 			j++;
 		}
+		j = 0;
 		i++;
 	}
 	return board;
@@ -357,6 +358,16 @@ int main(int count, char** args)
 	for (int i = 0; i < params; i++) printf("%d\n", hints[i]);
 	int size = params / 4;	
 	int** board = CreateBoard(size);
+
+	printf("Board:\n");
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			printf("%d ", board[i][j]);
+		}
+		printf("\n");
+	}
 	int* colUp = malloc(size * sizeof(int));
 	int* colDown = malloc(size * sizeof(int));
 	int* rowLeft = malloc(size * sizeof(int));
@@ -376,7 +387,7 @@ int main(int count, char** args)
 
 
 	int j = 0;
-	while (j <= params)
+	while (j < params)
 	{
 		if (j < size)
 		{
