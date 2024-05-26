@@ -358,7 +358,8 @@ int main(int count, char** args)
 {
 	int params = 0;
 	int* hints = SplitInput(args[1], &params);
-	for (int i = 0; i < params; i++) printf("%d\n", hints[i]);
+	for (int i = 0; i < params; i++) printf("%d, ", hints[i]);
+	write(1, "\n", 1);
 	int size = params / 4;	
 	int** board = CreateBoard(size);
 
